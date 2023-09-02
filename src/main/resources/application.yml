@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: account-service
+          predicates:
+            - name: Path
+              args:
+                regexp: /account-service/**
+          uri: lb://account-service
+
+        - id: banker-service
+          predicates:
+            - name: Path
+              args:
+                regexp: /banker-service/**
+          uri: lb://banker-service
+
+        - id: branch-service
+          predicates:
+            - name: Path
+              args:
+                regexp: /branch-service/**
+          uri: lb://branch-service
+
+        - id: payment-service
+          predicates:
+            - name: Path
+              args:
+                regexp: /payment-service/**
+          uri: lb://payment-service
+
+        - id: borrower-service
+          predicates:
+            - name: Path
+              args:
+                regexp: /borrower-service/**
+          uri: lb://borrower-service
+server:
+  port: 9999
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    preferIpAddress: true
+
+# todo: lb -> load balancing
